@@ -8,7 +8,7 @@ const heartbeat = (ws) => {
 
 const ping = () => { heartbeat(ws) };
 
-// ws.on('ping', ping);
+ws.on('ping', ping);
 // ws.on('open', ping)
 ws.on('error', (err)=>{console.log(err.message);});
 ws.on('close', () => {
