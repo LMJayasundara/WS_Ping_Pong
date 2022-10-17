@@ -19,17 +19,16 @@ wss.on("connection", (ws) => {
 
 const interval = setInterval(() => {
     wss.clients.forEach((client) => {
-        console.log(client.isAlive);
 
         if (client.isAlive === false) {
             console.log("Terminate");
-            return client.terminate()
+            return client.terminate();
         };
 
         client.isAlive = false;
         client.ping(() => { ping(client) });
     });
-}, 5000);
+}, 10000);
 
 wss.on('close', function close() {
     clearInterval(interval);
