@@ -1,24 +1,27 @@
 const WebSocket = require('ws');
 var reconn = null;
+const username = "ID001";
+const URL = 'ws://localhost:8080';
 
 const heartbeat = (ws) => {
   console.log("ping to server");
   clearTimeout(ws.pingTimeout);
-
-  // ws.pingTimeout = setTimeout(() => {
-  //   ws.terminate()
-  // }, 5000);
 };
 
 function startWebsocket() {
 
-  var ws = new WebSocket('ws://localhost:8080');
+  var ws = new WebSocket(URL, {
+    perMessageDeflate: false,
+    headers: {
+        Authorization: Buffer.from(username).toString('base64'),
+    },
+  });
+
   var ping = () => { heartbeat(ws) };
 
   ws.on('ping', ping);
 
   ws.on('open', function() {
-    // ping();
     clearInterval(reconn);
     ws.send("Hello from client");
   });
